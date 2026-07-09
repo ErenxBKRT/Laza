@@ -7,7 +7,7 @@ class VoitureController {
     public function listerVoit (){
         global $database;
         //prendre la liste des voiture dans la base de donnee
-        $stmt = $database->prepare("SELECT* FROM voioture");
+        $stmt = $database->prepare("SELECT* FROM voiture");
         $stmt->execute();
         //donner la liste des voiture dans le front
         return json_encode($stmt->fetchAll());
