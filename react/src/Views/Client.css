@@ -1,0 +1,9 @@
+.recherchecli{
+	display: flex;
+	gap:20px;
+}
+
+input[type="search"]{
+	width: 400px;
+}
+

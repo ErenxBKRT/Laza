@@ -1,0 +1,26 @@
+.periodeRevenu{
+	display: flex;
+	gap: 50px;
+}
+
+.revenu{
+	margin-left: 10px;
+	width:600px;
+	background: linear-gradient(#a788dc,#3b165c);
+	border-radius: 50px;
+	border-top-right-radius: 0px;
+	place-items: center;
+}
+
+.revenu p{
+	color: white;
+	font-size: 35px;
+}
+
+.periode{
+	border: 3px solid #3b165c;
+	width: 400px;
+	height: 200px;
+	border-radius: 50px;
+	text-align: center;
+}

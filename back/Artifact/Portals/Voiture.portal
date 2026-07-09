@@ -1,0 +1,30 @@
+{
+    "root": "voiture",
+    "portal": [
+        {
+            "url": "/voiture",
+            "method": "get",
+            "action": "listerVoit"
+        },
+        {
+            "url": "/voiture-Place",
+            "method": "get",
+            "action": "voirPlace"
+        },
+        {
+            "url": "/voiture-add",
+            "method": "post",
+            "action": "ajouterVoit"
+        },
+        {
+            "url": "/voiture-mod",
+            "method": "post",
+            "action": "modifierVoit"
+        },
+        {
+            "url": "/voiture-sup",
+            "method": "post",
+            "action": "supVoit"
+        }
+    ]
+}

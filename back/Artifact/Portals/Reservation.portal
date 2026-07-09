@@ -1,0 +1,15 @@
+{
+	"root": "reservation",
+	"portal": [
+		{
+			"url": "/recherche",
+			"method": "post",
+			"action": "chercherVoit"
+		},
+		{
+			"url": "/reserver",
+			"method": "post",
+			"action": "reserver"
+		}
+    ]
+}

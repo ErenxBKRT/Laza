@@ -1,0 +1,82 @@
+button{
+  background-color:#e2cef3;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+input,select {
+  color: #3b165c;
+  font-weight: 100;
+  font-size: large;
+  background-color: #e2cef3;
+  border: none;
+  border-bottom: 2px #3b165c solid;
+  border-top-left-radius:7px;
+  margin-bottom: 5px;
+}
+
+.Imodification{
+  width: 150px;
+}
+
+.carte{
+  margin: 5px;
+  text-align: center;
+  border: 2px solid;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  width: 180px;
+  border-color: linear-gradient(#ccaae6, #9673d2,#ccaae6);
+}
+
+.cartecontainer{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: fit-content;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+#brvoit{
+  position: fixed;
+  top: 160px;
+  left: 300px;
+}
+
+.dateC{
+  display: inline-flex;
+}
+
+.formplace{
+  display: flex;
+  gap:30px;
+}
+
+label{
+  height: 14px;
+  display: block;
+}
+
+.dateclass label{
+  width: 120px;
+}
+
+.iresersvation{
+  display: inline-flex;
+  gap: 50px;
+}
+
+.rvoit{
+  margin-right: 20px;
+}
+
+#reservebutton{
+  height: 120px;
+  width: 200px;
+}
+
+.voituredispo {
+  display: flex;
+}

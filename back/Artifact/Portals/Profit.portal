@@ -1,0 +1,10 @@
+{
+	"root": "profit",
+	"portal": [
+		{
+			"url": "profit",
+			"method": "get",
+			"action": "getProfit"
+		}
+    ]
+}

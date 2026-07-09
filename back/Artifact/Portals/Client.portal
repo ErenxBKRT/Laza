@@ -1,0 +1,25 @@
+{
+    "root": "client",
+    "portal": [
+        {
+            "url": "/client",
+            "method": "get",
+            "action": "listerClient"
+        },
+        {
+            "url": "/client-mod",
+            "method": "post",
+            "action": "modifierClient"
+        },
+        {
+            "url": "/client-add",
+            "method": "post",
+            "action": "ajouterClient"
+        },
+        {
+            "url": "/client-sup",
+            "method": "post",
+            "action": "supClient"
+        }
+    ]
+}
