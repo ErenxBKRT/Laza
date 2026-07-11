@@ -1,0 +1,21 @@
+.recherchecli{
+	display: flex;
+	gap:20px;
+}
+
+input[type="search"]{
+	width: 400px;
+}
+
+.ajout {
+	border: 2px solid #4f1176;
+	border-radius: 5px;
+	display: grid;
+	place-items: center;
+    text-align: center;
+	width: 500px;
+}
+
+.ajout input{
+	width: 200px;
+}

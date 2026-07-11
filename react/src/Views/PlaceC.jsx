@@ -1,4 +1,4 @@
-import './place.css'
+import '../style/place.css'
 import PlaceButton from './PlaceButton';
 
 function PlaceC() {

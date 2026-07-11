@@ -1,4 +1,4 @@
-import './Profit.css'
+import '../style/Profit.css'
 
 function Profit (){
 	return <>

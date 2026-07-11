@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './Client.css'
+import '../style/Client.css'
 import Confirmer from './Confirner';
 import * as fonction from "./Functions"
 
@@ -22,9 +22,7 @@ function Client (){
 		}
 	}
 
-	useEffect(() => {
-		chargerClients();
-	}, []);
+	useEffect(() => {chargerClients();}, []);
 
 	async function confirmerModification(client) {
 		try {
@@ -66,7 +64,6 @@ function Client (){
 		}
 
 		return (
-			String(client.idclient).includes(texteRecherche) ||
 			client.nom.toLowerCase().includes(texteRecherche) ||
 			client.numtel.toLowerCase().includes(texteRecherche)
 		);
@@ -96,7 +93,7 @@ function Client (){
 				onAnnuler={() => setClientSupprimer(null)}
 			/>
 		)}
-		<div className='cartecontainer'>
+		<div className='contener'>
 		{clientsAffiches.map((client) => (
         <div className="carte" key={client.idclient}>
           <p>{client.idclient}</p>
@@ -116,10 +113,6 @@ function Client (){
 	if (ajouter) {
 		return <>
 		<h2>CLIENT</h2>
-		<div className="recherchecli">
-			<input type="search"/>
-			<button className="btnrecherchecli">Rechercher</button>
-		</div>
 			{erreur && <p>{erreur}</p>}
 			<AjoutClient
 				onConfirmer={confirmerAjout}
@@ -131,10 +124,7 @@ function Client (){
 	else {
 		return <>
 		<h2>CLIENT</h2>
-		<div className="recherchecli">
-			<input type="search"/>
-			<button className="btnrecherchecli">Rechercher</button>
-		</div>
+		<h3>Modification</h3>
 			{erreur && <p>{erreur}</p>}
 			<ModClient
 				client={clientModifier}
@@ -161,7 +151,7 @@ function AjoutClient ({ onConfirmer, onAnnuler }){
 	}
 
 	return<>
-	<form className="carte" onSubmit={envoyerAjout}>
+	<form className="ajout" onSubmit={envoyerAjout}>
 		<p>nom</p><input type='text' className='Imodification' value={nom} onChange={(n) => setNom(n.target.value) }/>
 		<p>numtel</p><input type='text' className='Imodification' value={numtel} onChange={(nu) => setNumtel(nu.target.value)}/>
 		<button type="submit">Confirmer</button><br/>
@@ -186,11 +176,11 @@ function ModClient ({ client, onConfirmer, onAnnuler }){
 	}
 
 	return<>
-	<form className="carte" onSubmit={envoyerModification}>
-		<p>id : {client.idclient}</p>
-		<p>nom</p><input type='text' className='Imodification' value={nom} onChange={(n) => setNom(n.target.value) }/>
-		<p>numtel</p><input type='text' className='Imodification' value={numtel} onChange={(nu) => setNumtel(nu.target.value)}/>
-		<button type="submit">Confirmer</button><br/>
+	<form className="modification" onSubmit={envoyerModification}>
+		<p>id : {client.idclient}</p><br/>
+		<p>nom</p><input type='text' className='Imodification' value={nom} onChange={(n) => setNom(n.target.value) }/><br/>
+		<p>numtel</p><input type='text' className='Imodification' value={numtel} onChange={(nu) => setNumtel(nu.target.value)}/><br/>
+		<button type="submit">Confirmer</button>
 		<button type="button" onClick={onAnnuler}>Annuler</button><br/>
 	</form>	
 	</>

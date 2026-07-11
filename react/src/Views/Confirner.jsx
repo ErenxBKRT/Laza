@@ -1,5 +1,3 @@
-
-
 function Confirmer ({ message = "Etes vous sure de vouloir le supprimer", onConfirmer, onAnnuler }){
 
     return<>

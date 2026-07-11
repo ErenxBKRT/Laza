@@ -15,10 +15,11 @@ input,select {
   border-bottom: 2px #3b165c solid;
   border-top-left-radius:7px;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .Imodification{
-  width: 150px;
+  width: 250px;
 }
 
 .carte{
@@ -31,7 +32,7 @@ input,select {
   border-color: linear-gradient(#ccaae6, #9673d2,#ccaae6);
 }
 
-.cartecontainer{
+.contener{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   width: fit-content;
@@ -79,4 +80,18 @@ label{
 
 .voituredispo {
   display: flex;
+}
+
+.modification{
+  display: block;
+  width: 600px;
+  height: fit-content;
+  border: #3b165c solid 5px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px;
+}
+
+.modification button {
+  margin: 10px;
 }

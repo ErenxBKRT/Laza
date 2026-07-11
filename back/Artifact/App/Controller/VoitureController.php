@@ -31,8 +31,8 @@ class VoitureController {
         $data = json_decode(file_get_contents('php://input'), true);
 
         //donner les nouveaux donnee a la base de donnee
-        $stmt = $database->prepare("UPDATE voiture SET marque = ?, modele = ? WHERE idvoit = ?");
-        $stmt->execute([$data['marque'], $data['modele'], $data['idvoit']]);
+        $stmt = $database->prepare("UPDATE voiture SET idvoit = ?, frais = ? WHERE idvoit = ?");
+        $stmt->execute([$data['newid'], $data['frais'], $data['idvoit']]);
 
         return json_encode([
             'success' => true,

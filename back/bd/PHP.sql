@@ -49,3 +49,19 @@ INSERT INTO client(nom, numtel) VALUES
 ('Charlie Davis', '4445556666');
 
 SELECT * FROM client;
+
+INSERT INTO voiture(idvoit, design, typevoit, nbrplace, frais) VALUES
+('V001', 'Toyota Camry', 'Sedan', 5, 50),
+('V002', 'Honda Civic', 'Sedan', 5, 45),
+('V003', 'Ford Explorer', 'SUV', 7, 70),
+('V004', 'Chevrolet Malibu', 'Sedan', 5, 55),
+('V005', 'Nissan Rogue', 'SUV', 5, 60);
+
+SELECT * FROM voiture;
+
+INSERT INTO voiture(idvoit, design, typevoit, nbrplace, frais) VALUES
+('V006', 'BMW X5', 'SUV', 5, 80),
+('V007', 'Audi A4', 'Sedan', 5, 65),
+('V008', 'Mercedes-Benz C-Class', 'Sedan', 5, 75),
+('V009', 'Jeep Wrangler', 'SUV', 4, 90),
+('V010', 'Tesla Model S', 'Sedan', 5, 100);
