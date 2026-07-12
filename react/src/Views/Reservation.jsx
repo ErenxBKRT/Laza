@@ -26,7 +26,6 @@ function Reservation (){
 					</select><br/><br/>
 				</div>
 				</div>
-				<button id="brvoit">Confirmer</button>
 				<Inputclient/>
 				<button id="reservebutton">RESERVER</button>
 			</div>

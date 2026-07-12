@@ -1,7 +1,7 @@
 <?php
 
 $GLOBALS["database"] = new PDO(
-    'mysql:host=localhost;port=3306;dbname=PHP;charset=utf8mb4',
+    'mysql:host=localhost;port=3306;dbname=PHP2;charset=utf8mb4',
     'root',
     'Amaranthe21I',
     [

@@ -29,6 +29,7 @@ input,select {
   border-radius: 10px;
   border-top-right-radius: 0px;
   width: 180px;
+  height:fit-content;
   border-color: linear-gradient(#ccaae6, #9673d2,#ccaae6);
 }
 

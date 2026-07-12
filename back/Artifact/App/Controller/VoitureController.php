@@ -61,10 +61,11 @@ class VoitureController {
         $data = json_decode(file_get_contents('php://input'), true);
 
         //donner les nouveaux donnee a la base de donnee
-        $stmt = $database->prepare("INSERT INTO voiture (design,typevoit,nbrplace,frais)
-        VALUES (:design,:typevoit,:nbrplace,:frais)");
+        $stmt = $database->prepare("INSERT INTO voiture (idvoit,design,typevoit,nbrplace,frais)
+        VALUES (:idvoit,:design,:typevoit,:nbrplace,:frais)");
 
         $stmt->execute([
+            'idvoit' => $data['idvoit'],
             'design' => $data['design'],
             'typevoit' => $data['typevoit'],
             'nbrplace' => $data['nbrplace'],

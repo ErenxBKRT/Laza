@@ -92,12 +92,30 @@ export async function listervoiture (){
     return await response.json();
 }
 
-export function ajoutervoiture (id, designation, type, nbplace, frais){
+export function ajoutervoiture (newvoit){
     //demander au backend d'inserer une nouvelle voiture dans la base de donnee avec ces parametres
+    return fetch('http://localhost:8000/voiture/voiture-add', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            idvoit: newvoit.idvoit,
+            design: newvoit.design,
+            typevoit: newvoit.typevoit,
+            nbrplace: newvoit.nbrplace,
+            frais: newvoit.frais,
+        }),
+    }).then((response) => {
+        if (!response.ok) {     
+            throw new Error("Erreur lors de l'ajout du voiture");
+        }
 
+        return response.json();
+    });
 }
 
-export function modifiervoiture (id, frais, newid){
+export function modifiervoiture (voiture){
     //demander au backend de modifier les information de cette voiture avec l'id specifie
     return fetch('http://localhost:8000/voiture/voiture-mod', {
         method: "POST",
@@ -105,9 +123,9 @@ export function modifiervoiture (id, frais, newid){
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            idvoit: id,
-            frais: frais,
-            newid: newid,
+            idvoit: voiture.idvoit,
+            frais: voiture.frais,
+            newid: voiture.newid,
         }),
     }).then((response) => {
         if (!response.ok) {
