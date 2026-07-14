@@ -39,3 +39,9 @@ CREATE TABLE reserver (
     Foreign Key (place) REFERENCES place(place) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+SHOW CREATE TABLE reserver;
+
+ALTER TABLE reserver DROP FOREIGN KEY reserver_ibfk_3;
+
+ALTER TABLE reserver DROP INDEX place;
+

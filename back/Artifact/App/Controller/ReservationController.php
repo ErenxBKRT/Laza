@@ -35,15 +35,17 @@ class ReservationController {
 
     //envoyer les donner dans la bd dans la classe voit
     $stmt = $database->prepare("
-        INSERT INTO reservation(idcli, idvoit, date_reservation, place)
-        VALUES (:idcli, :idvoit, :date_reservation, :place)
+        INSERT INTO reserver(idcli, idvoit, place,datevoyage,datereserv,payement,avance)
+        VALUES (:idcli, :idvoit, :place, :datevoyage, CURDATE(), :payement, :avance)
     ");
 
     $stmt->execute([
-        'idcli' => $data['idcli'],
+        'idcli' => $data['idclient'],
         'idvoit' => $data['idvoit'],
-        'date_reservation' => $data['date_reservation'],
-        'place' => $data['place']
+        'datevoyage' => $data['datevoyage'],
+        'place' => $data['place'],
+        'payement' => $data['payement'],
+        'avance' => $data['avance']
     ]);
 
     return json_encode([

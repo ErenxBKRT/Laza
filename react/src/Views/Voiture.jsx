@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Confirmer from "./Confirner";
 import * as fonction from "./Functions"
+import PlaceC from "./PlaceC"
+import PlaceP from "./PlaceP"
+import PlaceV from "./PlaceV"
 
 function Voiture (){
 
@@ -8,9 +11,12 @@ function Voiture (){
 	const [erreur,setErreur]= useState("")
 	const [voituremodifier,setVoituremodifier]= useState(null)
 	const [voituresup,setVoituresup]= useState(null)
-	const [ajouter,setAjouter]=useState(false)
 	const [supprimer,setSupprimer]=useState(false)
 	const [newvoit,setNewvoit]=useState({idvoit:"",design:"Crafter",typevoit:"Classic",nbrplace:"16",frais:50000})
+	const [date,setDate]=useState("")
+	const [action,setAction]=useState("information")
+	const [typeplace,setTypeplace]=useState("classic")
+	const [placeoccupe,setPlaceoccupe]=useState([])
 
 	async function chargerVoiture(){
 		try {
@@ -86,7 +92,7 @@ function Voiture (){
 		</>
 	}
 
-	else if (ajouter){
+	else if (action==="ajouter"){
 		return <>
 			<h2>VOITURE</h2>
 			<h3>Ajouter une voiture</h3>
@@ -120,10 +126,49 @@ function Voiture (){
 			</div>
 		</>
 	}
+
+	else if (action==="places"){
+		// On filtre le tableau `voitures` pour obtenir uniquement celles qui ont le type sélectionné.
+		// On utilise .toLowerCase() pour s'assurer que la comparaison fonctionne (ex: "Classic" vs "classic").
+		const voituresFiltrees = voitures.filter(
+			(voiture) => voiture.typevoit.toLowerCase() === typeplace.toLowerCase()
+		);
+
+		return <>
+			<h2>VOITURE</h2>
+			<h3>Places</h3>
+
+			<button onClick={() => setAction("information")}>Informations</button><br/>
+			<button onClick={()=> setAction("ajouter")}> + ajouter </button>
+			<button onClick={() => setAction("places")}> places</button><br/>
+		
+			<select value={typeplace} onChange={(a) => setTypeplace(a.target.value)}>
+						<option value="classic">Classic</option>
+						<option value="premium">Premium</option>
+						<option value="VIP">VIP</option>
+			</select>
+			<input type="date" value={date} onChange={(e) => setDate(e.target.value)}/><br/>
+			<div className="contener">
+				{/* On boucle sur les voitures filtrées du type choisi */}
+				{voituresFiltrees.map((voiture) => (
+					<div key={voiture.idvoit} className="bloc-voiture-places" style={{ border: "1px solid #ccc", margin: "10px", padding: "10px",height:"fit-content" }}>
+						<h4>Matricule : {voiture.idvoit} ({voiture.design})</h4>
+						
+						{/* On affiche le composant de places correspondant en lui transmettant l'objet de la voiture en prop */}
+						{typeplace === "classic" && <PlaceC date={date} voiture={voiture} />}
+						{typeplace === "premium" && <PlaceP date={date} voiture={voiture} />}
+						{typeplace === "VIP" && <PlaceV date={date} voiture={voiture} />}
+					</div>
+				))}
+			</div>
+		</>
+	}
 	
 	return <>
 		<h2>VOITURE</h2>
-		<button className="nouveauvoit" onClick={()=>setAjouter(true)}> + ajouter </button>
+		<button onClick={() => setAction("information")}>Informations</button><br/>
+		<button onClick={()=> setAction("ajouter")}> + ajouter </button>
+		<button onClick={() => setAction("places")}> places</button><br/>
 		<div className="contener">
 		{
 		voitures.map((voiture)=>(<div className="carte" key={voiture.idvoit}>
@@ -133,7 +178,6 @@ function Voiture (){
 			<p>place:{voiture.nbrplace}</p>
 			<p>frais:{voiture.frais}</p>
 			<button onClick={() => setVoituremodifier(voiture)}>Modifier</button><br/>
-			<button>Place</button><br/>
 			<button onClick={() => setVoituresup(voiture)}>Supprimer</button>
 		</div>))
 		}

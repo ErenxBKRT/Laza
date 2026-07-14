@@ -160,6 +160,31 @@ export function supprimervoiture (id){
                            // FONCTION RESERVER
 //---------------------------------------------------------------------------------
 
+export function reserver(reservation){
+    //envoyer au back les information de la reservation
+    return fetch('http://localhost:8000/reservation/reserver',
+        {
+        method:"POST",
+        headers:{
+            "content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            idvoit: reservation.idvoit,
+            idclient: reservation.idclient,
+            place:reservation.place,
+            datevoyage: reservation.datevoyage,
+            payement: reservation.payement,
+            avance: reservation.avance,
+        })
+    }).then((response) => {
+        if (!response.ok) {     
+            throw new Error("Erreur lors de la reserrvation");
+        }
+        return response.json();
+    });
+
+
+}
 //---------------------------------------------------------------------------------
                            // FONCTION PROFIT
 //---------------------------------------------------------------------------------
