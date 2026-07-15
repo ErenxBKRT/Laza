@@ -14,16 +14,27 @@ class VoitureController {
     }
 
     public function voirPlace (){
-        global $database;
-        //prendre la date a voir
-        $data = json_decode(file_get_contents('php://input'), true);
+    global $database;
+    
+    $data = json_decode(file_get_contents('php://input'), true);
 
-        //prendre les places disponibles
-        $stmt = $database->prepare("SELECT * FROM place WHERE date = ?");
-        //select les places
-        $stmt ->execute([$data['date']]);
-        return json_encode($stmt->fetchAll());
+    if (!isset($data['date']) || empty($data['date'])) {
+        return json_encode([]);
     }
+
+    // Sélectionner les plaques de voiture et les places occupées pour cette date
+    $stmt = $database->prepare("SELECT idvoit, place FROM reserver WHERE datevoyage = ?");
+    $stmt->execute([$data['date']]);
+    
+    $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Forcer la conversion de la place en String ou en Integer propre pour éviter les surprises en JS
+    foreach ($resultats as &$row) {
+        $row['place'] = strval($row['place']); // Transforme "1" ou 1 en string "1"
+    }
+    
+    return json_encode($resultats);
+}
 
     public function modifierVoit(){ 
         global $database;

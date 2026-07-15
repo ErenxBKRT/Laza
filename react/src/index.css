@@ -41,6 +41,14 @@ input,select {
   overflow-y: scroll;
 }
 
+.contener-voit{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: fit-content;
+  height: 350px;
+  overflow-y: scroll;
+}
+
 #brvoit{
   position: fixed;
   top: 160px;
@@ -116,4 +124,20 @@ select{
 
 .reponse{
   font-weight: bolder;
+}
+
+.mon-bouton-place.libre {
+    background-color:#ccaae6;
+    width:30px;
+    height: 30px; 
+    margin-top: 2px;
+    margin: 3px;
+}
+
+.mon-bouton-place.occupe{
+    background-color: #3b165c;
+    width:30px;
+    height: 30px; 
+    margin-top: 2px;
+    margin: 3px;
 }

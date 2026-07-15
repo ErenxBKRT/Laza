@@ -13,11 +13,25 @@ function Voiture (){
 	const [voituresup,setVoituresup]= useState(null)
 	const [supprimer,setSupprimer]=useState(false)
 	const [newvoit,setNewvoit]=useState({idvoit:"",design:"Crafter",typevoit:"Classic",nbrplace:"16",frais:50000})
-	const [date,setDate]=useState("")
+	const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 	const [action,setAction]=useState("information")
 	const [typeplace,setTypeplace]=useState("classic")
 	const [placeoccupe,setPlaceoccupe]=useState([])
 
+	// Charger les places occupées lorsque la date change
+useEffect(() => {
+    async function recupererPlacesOccupees() {
+        if (!date) return; // Ne rien faire si aucune date n'est sélectionnée
+        try {
+            const places = await fonction.listerPlacesParDate(date);
+            setPlaceoccupe(places); // On stocke les places récupérées dans l'état
+        } catch (error) {
+            setErreur("Impossible de charger les places occupées");
+        }
+    }
+    recupererPlacesOccupees();
+}, [date]); // S'exécute à chaque fois que la variable 'date' change
+	
 	async function chargerVoiture(){
 		try {
 			const data = await fonction.listervoiture();
@@ -30,15 +44,26 @@ function Voiture (){
 
 	useEffect (()=>{chargerVoiture();},[])
 
-	async function confirmerModification(voiture){
-		try {
-			setVoituremodifier({...voituremodifier,newid: voituremodifier.idvoit});
-			await fonction.modifiervoiture(voiture);
-			await chargerVoiture();
-			setVoituremodifier(null);
-			setErreur("");
-		} catch (error){ setErreur("impossible de modifier cette voiture")}
-	}
+	async function confirmerModification(voiture) {
+    try {
+        // On crée l'objet complet prêt à être envoyé à l'API
+        // Si 'newid' n'a pas été modifié par l'input, on garde l'id initial
+        const voitureMiseAJour = {
+            ...voiture,
+            newid: voiture.newid || voiture.idvoit 
+        };
+
+        // On envoie cet objet à jour directement à l'API
+        await fonction.modifiervoiture(voitureMiseAJour);
+        
+        // On rafraîchit la liste et on ferme le formulaire
+        await chargerVoiture();
+        setVoituremodifier(null);
+        setErreur("");
+    } catch (error) { 
+        setErreur("impossible de modifier cette voiture");
+    }
+}
 
 	async function confirmerSuppression(voiture) {
 			try {
@@ -74,7 +99,7 @@ function Voiture (){
 			<p>Type:</p><p>{voituremodifier.typevoit}</p>
 			<p>Place:</p><p>{voituremodifier.nbrplace}</p>
 			<p>frais:</p><p>{voituremodifier.frais}</p><input type="texte" className="modificationInput" defaultValue={voituremodifier.frais} onChange={(e)=>setVoituremodifier({...voituremodifier,frais:e.target.value})}/><br/>
-			<button onClick={()=>confirmerModification(voituremodifier)}>Confirmer</button>
+			<button onClick={() => confirmerModification(voituremodifier)}>Modifier</button>
 			<button onClick={()=>setVoituremodifier(null)}>Annuler</button>
 		</div>
 	</>
@@ -153,11 +178,11 @@ function Voiture (){
 				{voituresFiltrees.map((voiture) => (
 					<div key={voiture.idvoit} className="bloc-voiture-places" style={{ border: "1px solid #ccc", margin: "10px", padding: "10px",height:"fit-content" }}>
 						<h4>Matricule : {voiture.idvoit} ({voiture.design})</h4>
-						
-						{/* On affiche le composant de places correspondant en lui transmettant l'objet de la voiture en prop */}
-						{typeplace === "classic" && <PlaceC date={date} voiture={voiture} />}
-						{typeplace === "premium" && <PlaceP date={date} voiture={voiture} />}
-						{typeplace === "VIP" && <PlaceV date={date} voiture={voiture} />}
+
+							{typeplace === "classic" && <PlaceC voiture={voiture} placesOccupees={placeoccupe} />}
+							{typeplace === "premium" && <PlaceP voiture={voiture} placesOccupees={placeoccupe} />}
+							{typeplace === "VIP" && <PlaceV voiture={voiture} placesOccupees={placeoccupe} />}
+				
 					</div>
 				))}
 			</div>
@@ -177,7 +202,7 @@ function Voiture (){
 			<p>type:{voiture.typevoit}</p>
 			<p>place:{voiture.nbrplace}</p>
 			<p>frais:{voiture.frais}</p>
-			<button onClick={() => setVoituremodifier(voiture)}>Modifier</button><br/>
+			<button onClick={() => setVoituremodifier({ ...voiture, newid: voiture.idvoit })}>Modifier</button><br/>
 			<button onClick={() => setVoituresup(voiture)}>Supprimer</button>
 		</div>))
 		}

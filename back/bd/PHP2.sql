@@ -26,7 +26,7 @@ CREATE TABLE client(
 
 CREATE TABLE reserver (
     idreserv VARCHAR(50) PRIMARY KEY NOT NULL,
-    idvoit VARCHAR(10),
+    idvoit VARCHAR(10), 
     idclient INT,
     place INT,
     datereserv DATETIME,
@@ -45,3 +45,4 @@ ALTER TABLE reserver DROP FOREIGN KEY reserver_ibfk_3;
 
 ALTER TABLE reserver DROP INDEX place;
 
+SELECT * FROM reserver;

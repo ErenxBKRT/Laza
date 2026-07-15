@@ -3,9 +3,7 @@
 //---------------------------------------------------------------------------------
 
 export async function listerClient() {
-  const response = await fetch('http://localhost:8000/client/client', {
-    method: "GET",
-  });
+  const response = await fetch('http://localhost:8000/client/client', {method: "GET",});
 
   if (!response.ok) {
     throw new Error("Erreur lors du chargement des clients");
@@ -79,6 +77,21 @@ export function supprimerclient (id){
                            // FONCTION VOITURE
 //---------------------------------------------------------------------------------
 
+export async function listerPlacesParDate(date) {
+    const response = await fetch('http://localhost:8000/voiture/voiture-Place', { // Ajustez l'URL selon votre routeur PHP
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ date: date })
+    });
+
+    if (!response.ok) {
+        throw new Error("Erreur lors du chargement des places occupées");
+    }
+
+    return await response.json();
+}
 
 export async function listervoiture (){
     //demander au backend la liste des voitures dans la bd
@@ -160,30 +173,60 @@ export function supprimervoiture (id){
                            // FONCTION RESERVER
 //---------------------------------------------------------------------------------
 
-export function reserver(reservation){
-    //envoyer au back les information de la reservation
-    return fetch('http://localhost:8000/reservation/reserver',
-        {
-        method:"POST",
-        headers:{
-            "content-Type": "application/json",
+export async function reserver(reservation){
+    const response = await fetch('http://localhost:8000/reservation/reserver', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
+            idreservation : reservation.idreservation,
             idvoit: reservation.idvoit,
             idclient: reservation.idclient,
-            place:reservation.place,
+            place: reservation.place,
             datevoyage: reservation.datevoyage,
             payement: reservation.payement,
             avance: reservation.avance,
         })
-    }).then((response) => {
-        if (!response.ok) {     
-            throw new Error("Erreur lors de la reserrvation");
-        }
-        return response.json();
     });
 
+    if (!response.ok) {
+        throw new Error("Erreur lors de la réservation");
+    }
 
+    return response.json();
+}
+
+export async function id(client) {
+  const response = await fetch('http://localhost:8000/reservation/rechercheId', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },                      
+    body: JSON.stringify({
+      nom: client.nom,
+      // On s'assure d'envoyer numtel au cas où le backend l'exige ici
+      numtel: client.contact || client.numtel, 
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Erreur lors de la recherche d'id clients");
+  }
+
+  const data = await response.json();
+
+  // 1. Si le client existe, on retourne son ID
+  if (Array.isArray(data) && data.length > 0) {
+    return data[0].idclient ?? null;
+  }
+
+  // 2. S'il n'existe pas (tableau vide), on le crée automatiquement !
+  console.log("Client inexistant. Création automatique...");
+  const nouveauClient = await ajouterclient(client.nom, client.contact);
+  
+  // On retourne l'ID du client fraîchement créé (selon la structure retournée par votre API)
+  return nouveauClient.idclient || nouveauClient.id || null;
 }
 //---------------------------------------------------------------------------------
                            // FONCTION PROFIT
