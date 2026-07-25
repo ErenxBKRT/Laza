@@ -62,5 +62,5 @@ class clientController {
             'success' => true,
             'message' => 'Client supprime'
         ]);
-    } 
+    }
 }

@@ -13,18 +13,12 @@ class VoitureController {
         return json_encode($stmt->fetchAll());
     }
 
-    public function voirPlace (){
+    public function voirPlace (string $date){
     global $database;
-    
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    if (!isset($data['date']) || empty($data['date'])) {
-        return json_encode([]);
-    }
 
     // Sélectionner les plaques de voiture et les places occupées pour cette date
-    $stmt = $database->prepare("SELECT idvoit, place FROM reserver WHERE datevoyage = ?");
-    $stmt->execute([$data['date']]);
+    $stmt = $database->prepare("SELECT idvoit, place FROM reserver WHERE datevoyage = '$date'");
+    $stmt->execute();
     
     $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -4,6 +4,17 @@ require_once dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . "php" . DIRECTORY_SEPAR
 
 class ReservationController {
 
+    public function listereservation (){
+
+        global $database;
+
+        $stmt = $database->prepare("SELECT* FROM reserver");
+        $stmt->execute();
+
+        return json_encode($stmt->fetchAll());
+
+    }
+
     public function chercherVoit (){
 
         global $database;

@@ -46,3 +46,9 @@ ALTER TABLE reserver DROP FOREIGN KEY reserver_ibfk_3;
 ALTER TABLE reserver DROP INDEX place;
 
 SELECT * FROM reserver;
+
+SELECT reserver.idvoit,reserver.place,voiture.typevoit FROM reserver JOIN voiture WHERE reserver.datevoyage='2026-07-25';
+
+
+SELECT *, SUM(frais) FROM reserver JOIN voiture ON voiture.idvoit=reserver.idvoit WHERE datevoyage BETWEEN '2026-07-30' and '2026-07-30' and voiture.typevoit = 'classic';
+SELECT SUM(frais) FROM reserver JOIN voiture ON voiture.idvoit=reserver.idvoit WHERE datevoyage BETWEEN '2026-07-30' and '2026-07-30';

@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import * as fonction from "./Functions";
+import PlaceC from "./PlaceC"
+import PlaceP from "./PlaceP"
+import PlaceV from "./PlaceV"
+
 
 function Reservation() {
-  const [classs, setClass] = useState("classic");
+  const [liste,setListe]=useState(false)
+  const [listreservation,setListreservation]=useState([])
+  const [placeoccupe,setPlaceoccupe]=useState([])
+  const [voitures,setVoitures]= useState([])
+  const [erreur,setErreur]= useState("")
+  const [classs, setClass] = useState("Classic");
   const [reserver, setReserver] = useState(false);
   const [client, setClient] = useState({ nom: "", contact: "" });
   const [reservation, setReservation] = useState({
@@ -17,6 +26,45 @@ function Reservation() {
     avance: "0", // Ajouté pour l'état d'avance
   });
   const [modePaye, setModepaye] = useState("integral");
+
+async function chargerReservation(){
+    try {
+      const data = await fonction.listerReservation();
+      console.log(data)
+      setListreservation(data);
+      setErreur("");
+    }catch (error){
+      setErreur("impossible de charger les voitures")
+      console.log(error)
+    }
+  }
+
+  useEffect (()=>{chargerReservation();},[])
+
+useEffect(() => {
+    async function recupererPlacesOccupees() {
+        if (!reservation.datevoyage) return; // Ne rien faire si aucune date n'est sélectionnée
+        try {
+            const places = await fonction.listerPlacesParDate(reservation.datevoyage);
+            setPlaceoccupe(places); // On stocke les places récupérées dans l'état
+        } catch (error) {
+            setErreur("Impossible de charger les places occupées");
+        }
+    }
+    recupererPlacesOccupees();
+}, [reservation.datevoyage]); // S'exécute à chaque fois que la variable 'date' change
+  
+  async function chargerVoiture(){
+    try {
+      const data = await fonction.listervoiture();
+      setVoitures(data);
+      setErreur("");
+    }catch (error){
+      setErreur("impossible de charger les voitures")
+    }
+  }
+
+  useEffect (()=>{chargerVoiture();},[])
 
   // Fonction pour préparer et valider la réservation
   async function preparerReservation() {
@@ -65,6 +113,10 @@ function Reservation() {
       alert("Erreur lors de la réservation : " + error.message);
     }
   }
+  
+      const voituresFiltrees = voitures.filter(
+			(voiture) => voiture.typevoit.toLowerCase() === reservation.classs.toLowerCase()
+		);
 
   // Rendu de l'étape de confirmation (Paiement)
   if (reserver) {
@@ -88,14 +140,7 @@ function Reservation() {
               type="text"
               value={reservation.idreservation}
               onChange={(e) => setReservation({ ...reservation, idreservation: e.target.value })}
-            />
-            <p>Mode de payement</p>
-            <select value={modePaye} onChange={(a) => setModepaye(a.target.value)}>
-              <option value="integral">Tout payé</option>
-              <option value="avance">Avec avance</option>
-              <option value="Npaye">Sans avance</option>
-            </select>
-
+            /><br/>
             {modePaye === "avance" && (
               <>
                 <p>Avance:</p>
@@ -119,11 +164,35 @@ function Reservation() {
     );
   }
 
+
+ else if (liste){
+    return<>
+        <h2>RESERVATION</h2>
+                  <br/>
+        <button onClick={()=>setListe(false)}>Reserver</button><br/>
+
+        <div className="contener">
+		{
+		listreservation.map((reservation)=>(<div className="carte" key={reservation.idreserv}>
+			<p>reservation :</p><p>{reservation.idreserv}</p>
+			<p>voitture :</p><p>{reservation.idvoit}</p>
+			<p>place :</p><p>{reservation.place}</p>
+			<p>date :</p><p>{reservation.datevoyage}</p>
+		</div>))
+		}
+		</div>
+      
+      </>
+
+
+
+ }
   // Rendu du formulaire de base
   return (
     <>
       <h2>RESERVATION</h2>
-      <br />
+      <br/>
+      <button onClick={()=>setListe(true)}>Liste</button><br/>
       <div className="iresersvation">
         <div className="dateC">
           <div className="dateclass">
@@ -138,9 +207,9 @@ function Reservation() {
               onChange={(v) => setReservation({ ...reservation, datevoyage: v.target.value })}
             />
             <br />
-            <select id="classV" onChange={(a) => setClass(a.target.value)}>
-              <option value="classic">Classic</option>
-              <option value="premium">Premium</option>
+            <select id="classV" onChange={(e) => setReservation({...reservation, classs: e.target.value})}>
+              <option value="Classic">Classic</option>
+              <option value="Premium">Premium</option>
               <option value="VIP">VIP</option>
             </select>
             <br />
@@ -188,10 +257,25 @@ function Reservation() {
         <button id="reservebutton" onClick={preparerReservation}>
           RESERVER
         </button>
-      </div>
+        </div>
+
+{/*//BASE RECHERCHE DE DISPONIBILITE DE PLACE*/}
+ 
+			<div className="contener">
+				{/* On boucle sur les voitures filtrées du type choisi */}
+				{voituresFiltrees.map((voiture) => (
+					<div key={voiture.idvoit} className="bloc-voiture-places" style={{ border: "1px solid #ccc", margin: "10px", padding: "10px",height:"fit-content" }}>
+						<h4>Matricule : {voiture.idvoit} ({voiture.design})</h4>
+
+							{reservation.classs === "Classic" && <PlaceC voiture={voiture} placesOccupees={placeoccupe} />}
+							{reservation.classs === "Premium" && <PlaceP voiture={voiture} placesOccupees={placeoccupe} />}
+							{reservation.classs === "VIP" && <PlaceV voiture={voiture} placesOccupees={placeoccupe} />}
+				
+					</div>  
+				))}
+			</div>
     </>
   );
 }
-
 
 export default Reservation;

@@ -15,6 +15,11 @@
       "url": "/rechercheId",
       "method": "post",
       "action": "rechercheId"
+    },
+    {
+      "url": "/lister",
+      "method": "get",
+      "action": "listereservation"
     }
   ]
 }

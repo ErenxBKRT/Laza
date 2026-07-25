@@ -1,14 +1,15 @@
+import React from 'react';
+import '../style/place.css';
 
 function PlaceButton({ num, occupe }) {
     return (
         <button 
-            // On lui donne une classe différente s'il est occupé
             className={`mon-bouton-place ${occupe ? "occupe" : "libre"}`}
-            disabled={occupe} // Empêche de cliquer si occupé (optionnel)
-        >
+            disabled={occupe}>
             {num}
         </button>
     );
 }
 
 export default PlaceButton;
+

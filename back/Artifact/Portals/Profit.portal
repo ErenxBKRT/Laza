@@ -2,9 +2,25 @@
 	"root": "profit",
 	"portal": [
 		{
-			"url": "profit",
+			"url": "/profitC/{date1}/{date2}",
 			"method": "get",
-			"action": "getProfit"
+			"action": "getPlaceC"
+		},
+		{
+			"url": "/profitP/{date1}/{date2}",
+			"method": "get",
+			"action": "getPlaceP"
+		},
+		{
+			"url": "/profitV/{date1}/{date2}",
+			"method": "get",
+			"action": "getPlaceV"
+		},
+		{
+			"url": "/profitG/{date1}/{date2}",
+			"method": "get",
+			"action": "getProfitG"
 		}
+
     ]
 }

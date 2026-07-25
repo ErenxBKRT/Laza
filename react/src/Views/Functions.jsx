@@ -78,14 +78,13 @@ export function supprimerclient (id){
 //---------------------------------------------------------------------------------
 
 export async function listerPlacesParDate(date) {
-    const response = await fetch('http://localhost:8000/voiture/voiture-Place', { // Ajustez l'URL selon votre routeur PHP
-        method: "POST",
+    const response = await fetch('http://localhost:8000/voiture/voiture-Place/'+date, {
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ date: date })
+        }
     });
-
+ 
     if (!response.ok) {
         throw new Error("Erreur lors du chargement des places occupées");
     }
@@ -173,6 +172,16 @@ export function supprimervoiture (id){
                            // FONCTION RESERVER
 //---------------------------------------------------------------------------------
 
+export async function listerReservation (){
+    const response = await fetch('http://localhost:8000/reservation/lister', {
+        method: "GET",
+    })
+     if (!response.ok) {
+    throw new Error("Erreur lors du chargement des reservations");
+    }
+    return await response.json();
+}
+
 export async function reserver(reservation){
     const response = await fetch('http://localhost:8000/reservation/reserver', {
         method: "POST",
@@ -231,3 +240,46 @@ export async function id(client) {
 //---------------------------------------------------------------------------------
                            // FONCTION PROFIT
 //---------------------------------------------------------------------------------
+
+export async function voirprofitC(date1 ,date2){
+    const response1 = await fetch('http://localhost:8000/profit/profitC/'+date1+'/'+date2, {
+        method :"GET",
+    })
+    if (!response1.ok) {
+        throw new Error("Erreur lors du chargement des places occupées");
+    }
+    return await response1.json();
+}
+export async function voirprofitP(date1 ,date2){
+    const response = await fetch('http://localhost:8000/profit/profitP/'+date1+'/'+date2, {
+        method :"GET",
+    })
+    if (!response.ok) {
+        throw new Error("Erreur lors du chargement des places occupées");
+    }
+
+    return await response.json();
+    
+}
+export async function voirprofitV(date1 ,date2){
+    const response = await fetch('http://localhost:8000/profit/profitV/'+date1+'/'+date2, {
+        method :"GET",
+    })
+    if (!response.ok) {
+        throw new Error("Erreur lors du chargement des places occupées");
+    }
+
+    return await response.json();
+    
+}
+
+export async function profitG(date1,date2){
+    const response = await fetch('http://localhost:8000/profit/profitG/'+date1+'/'+date2, {
+        method :"GET",
+    })
+    if (!response.ok) {
+        throw new Error("Erreur lors du chargement des places occupées");
+    }
+
+    return await response.json();
+}

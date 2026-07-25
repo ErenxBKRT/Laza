@@ -9,12 +9,12 @@ function PlaceP ({ voiture, placesOccupees }) {
     
     return placesOccupees.some((p) => {
         // Gérer aussi bien 'idvoit' que 'IDVOIT'
-        const dbIdvoit = p.idvoit || p.IDVOIT || "";
+        const dbIdvoit = p.idvoit;
         // Gérer aussi bien 'place' que 'PLACE'
         const dbPlace = p.place !== undefined ? p.place : p.PLACE;
 
-        return dbIdvoit.trim().toLowerCase() === voiture.idvoit.trim().toLowerCase() && 
-               String(dbPlace).trim() === String(numPlace).trim();
+        return dbIdvoit.trim().toLowerCase() == voiture.idvoit.trim().toLowerCase() && 
+               String(dbPlace).trim() == String(numPlace).trim();
     });
 };
 

@@ -7,7 +7,7 @@
             "action": "listerVoit"
         },
         {
-            "url": "/voiture-Place",
+            "url": "/voiture-Place/{date}",
             "method": "get",
             "action": "voirPlace"
         },
